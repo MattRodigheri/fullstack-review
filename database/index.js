@@ -30,6 +30,7 @@ let obtain = (callback) => {
     }
   })
 }
+//obtain()
 
 module.exports.obtain = obtain;
 module.exports.save = save;

@@ -14,15 +14,29 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
+    let context = this;
     $.ajax({
       type: 'POST',
       url: "http://localhost:1128/repos",
       data: {userName: term},
       success: function() {
-        console.log("success")
+        context.getData() //logging db data in console, move this to html!
       },
       error: function() {
         console.log("error")
+      }
+    })
+  }
+
+  getData () {
+    $.ajax({
+      type: 'GET',
+      url: "http://localhost:1128/repos",
+      success: function(data) {
+        console.log(data);
+      },
+      error: function() {
+        console.log("GET error")
       }
     })
   }

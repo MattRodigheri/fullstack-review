@@ -20,7 +20,7 @@ app.post('/repos', function (req, res) {
     if (error) {
       res.sendStatus(500)
     } else {
-      //this correct?
+      //console.log(data) - works, logs data in terminal
       dbMethods.save(data, function(error, data) {
         if (error) {
           callback(error);
@@ -35,11 +35,11 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   // This route should send back the top 25 repos
-
   dbMethods.obtain(function(error, data) {
     if (error) {
       res.send(error);
     } else {
+      res.send(data)
       //write sorting function here
     }
   })
