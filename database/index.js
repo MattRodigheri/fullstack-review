@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
-    id: Number
+    id: {type: Number, unique: true}
   , name: String
   , forks: Number
 });
@@ -11,13 +10,17 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repoObj, callback) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to the MongoDB
-  Repo.insertMany(repoObj, function(err) {
-    if (err) {
-      console.log(err);
-    }
-  });
+
+  var data = JSON.parse(repoObj.body);
+  for (var i = 0; i < data.length; i++) {
+    var obj = {id: data[i].id, name: data[i].name, forks: data[i].forks}
+    var repo = new Repo(obj);
+    repo.save(function(err) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
 }
 
 //retrieves info from database
@@ -28,9 +31,10 @@ let obtain = (callback) => {
     } else {
       callback(null, repo);
     }
-  })
+  }).
+  limit(25).
+  sort({ forks: -1 })
 }
-//obtain()
 
 module.exports.obtain = obtain;
 module.exports.save = save;

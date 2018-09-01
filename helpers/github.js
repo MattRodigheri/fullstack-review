@@ -22,8 +22,6 @@ let getReposByUsername = (userName, callback) => {
       callback(null, data);
     }
   })
-
-  //console.log("USERNAME:" + userName);
 }
 
 
